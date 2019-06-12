@@ -1,6 +1,14 @@
-import { User, Product } from './models/index';
-import * as config from './config/config.json';
+import { DirWatcher } from './dirwatcher/dirWatcher';
+import { Importer } from './importer/Importer';
 
-console.log(config.name);
-const product = new Product();
-const user = new User();
+const importer = new Importer();
+const dirWatcher = new DirWatcher();
+
+dirWatcher.watch('./data', 2000);
+
+dirWatcher.on('dirwatcher:changed', () => {
+  importer.import('./data').then((data) => {
+    console.log(data);
+  });
+  // importer.importSync('./data');
+});
