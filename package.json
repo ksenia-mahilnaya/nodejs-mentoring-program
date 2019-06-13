@@ -4,7 +4,7 @@
   "description": "Simple node.js app",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node --presets env,stage-2 app.js",
+    "start": "nodemon --exec babel-node --presets env,stage-2 index.js",
     "test": ""
   },
   "author": "kseniya-mahilnaya",
@@ -20,6 +20,10 @@
   "dependencies": {
     "csvtojson": "^2.0.8",
     "events": "^3.0.0",
-    "fs": "0.0.1-security"
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "lodash": "^4.17.11",
+    "through2": "^3.0.1"
   }
 }

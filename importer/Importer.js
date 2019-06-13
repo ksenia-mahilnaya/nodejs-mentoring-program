@@ -1,5 +1,5 @@
 import fs from 'fs';
-const csv = require('csvtojson');
+import csv from 'csvtojson';
 
 export class Importer {
   constructor() {
