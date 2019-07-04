@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const _ = require('lodash');
 const cookiesParser = require('./middlewares/cookiesParser');
 const queryParser = require('./middlewares/queryParser');
@@ -21,6 +22,8 @@ router.use((req, res, next) => {
 
 router.use(cookiesParser);
 router.use(queryParser);
+
+app.use(passport.initialize());
 
 app.use('/api/products', productsRoute);
 app.use('/api/users', usersRoute);
