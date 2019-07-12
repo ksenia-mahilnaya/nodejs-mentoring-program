@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
  
 const citySchema = new Schema({
-  name: {
-      type: Number,
-      required: [ true, 'City name is required' ]
-  },
+  name: String,
   country: String,
   capital: Boolean,
   location: {

@@ -34,6 +34,8 @@ const City = mongoose.model('City', citySchema);
 //   db.close();
 // });
 
+mongoose.set('useFindAndModify', false);
+
 router.use((req, res, next) => {
   let randomNumber = Math.random().toString();
   randomNumber = randomNumber.substring(2, randomNumber.length);
@@ -49,127 +51,119 @@ router.use(queryParser);
 
 router.get('/api/products', (req, res) => {
   Product.find((err, products) => {
-    if (err) {
-        res.send(err);
-    }
+    if (err) throw err;
     res.json(products);
   });
 });
 
 router.get('/api/products/:id', (req, res) => {
   Product.findById(req.params.id, (err, product) => {
-    if (err) {
-        res.send(err);
-    }
+    if (err) throw err;
     res.json(product);
   });
 });
 
 router.get('/api/products/:id/reviews', (req, res) => {
-  Product.findById(req.params.id, function(err, product) {
-    if (err) {
-        res.send(err);
-    }
+  Product.findById(req.params.id, (err, product) => {
+    if (err) throw err;
     res.json(product.reviews);
   });
 });
 
 router.post('/api/products', (req, res) => {
   const product = new Product({
+    _id: new mongoose.Types.ObjectId(),
     id: req.body.id,
     appName: req.body.appName,
     appVersion: req.body.appVersion,
     username: req.body.username,
-    reviews: req.body.reviews,
-    lastModifiedDate: new Date()
+    reviews: req.body.reviews
+  });
+
+  product.schema.pre('save', function(next) {
+    this.lastModifiedDate = new Date();
+    next();
   });
 
   product.save((err) => {
-        if (err) {
-            res.send(err);
-        }
-        res.json(product);
+    if (err) throw err;
+    console.log('Product saved successfully');
+    res.json(product);
     });
 });
 
 router.delete('/api/products/:id', (req, res) => {
-  Product.remove({ _id: req.params.id }, (err, product) => {
-    if (err) {
-        res.send(err);
-    }
+  Product.findByIdAndRemove(req.params.id, (err, product) => {
+    if (err) throw err;
     res.json(product);
   });
 });
 
 router.get('/api/users', (req, res) => {
   User.find((err, users) => {
-    if (err) {
-        res.send(err);
-    }
+    if (err) throw err;
     res.json(users);
   });
 });
 
 router.delete('/api/users/:id', (req, res) => {
-  User.remove({ _id: req.params.id }, (err, user) => {
-    if (err) {
-        res.send(err);
-    }
+  User.findByIdAndRemove(req.params.id, (err, user) => {
+    if (err) throw err;
     res.json(user);
   });
 });
 
 router.get('/api/cities', (req, res) => {
   City.find((err, cities) => {
-    if (err) {
-        res.send(err);
-    }
+    if (err) throw err;
     res.json(cities);
   });
 });
 
 router.post('/api/cities', (req, res) => {
   const city = new City({
+    _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     country: req.body.country,
     capital: req.body.capital,
-    location: req.body.location,
-    lastModifiedDate: new Date()
+    location: req.body.location
+  });
+
+  city.schema.pre('save', function(next) {
+    this.lastModifiedDate = new Date();
+    next();
   });
 
   city.save((err) => {
-        if (err) {
-            res.send(err);
-        }
-        res.json(city);
+    if (err) throw err;
+    console.log('City saved successfully');
+    res.json(city);
     });
 });
 
 router.put('/api/cities/:id', (req, res) => {
-  City.findById(req.params.id, (err, city) => {
-      if (err) {
-          res.send(err);
-      }
-      city.name = req.params.name;
-      city.country = req.params.country;
-      city.capital = req.params.capital;
-      city.location = req.params.location;
-      city.lastModifiedDate = new Date();
+  const newCityProps = {
+    name: req.params.name,
+    country: req.params.country,
+    capital: req.params.capital,
+    location: req.params.location
+  };
 
-      city.save((err) => {
-          if (err) {
-              res.send(err);
-          }
-          res.json(city);
-      });
+  City.schema.pre('findOneAndUpdate', function(next) {
+    this._update.$set.newCityProps.lastModifiedDate = new Date();
+    next();
+  });
+  
+  City.findOneAndUpdate({ _id: req.params.id }, { $set: newCityProps }, { new: true }, (err, city) => {
+    if (err) throw err;
+    console.log('City updated successfully');
+      res.json(city);
   });
 });
 
 router.delete('/api/cities/:id', (req, res) => {
-  City.remove({ _id: req.params.id }, (err, city) => {
-    if (err) {
-        res.send(err);
-    }
+  City.findByIdAndRemove(req.params.id, (err, city) => {
+    if (err) throw err;
     res.json(city);
   });
 });
