@@ -8,6 +8,10 @@ const dbURL = require('./config/config').dbURL;
 const productsRoute = require('./routes/products');
 const usersRoute = require('./routes/users');
 const citiesRoute = require('./routes/cities');
+const User = require('./models/User');
+const Product = require('./models/Product');
+const mockDataUsers = require('./data/MOCK_DATA_USERS');
+const mockDataProducts = require('./data/MOCK_DATA_PRODUCTS');
 
 const connected = chalk.bold.cyan;
 const error = chalk.bold.yellow;
@@ -39,7 +43,7 @@ process.on('SIGINT', () => {
 });
  
 // this piece of code is for importing mock data into database
-//const db = mongoose.connection;
+// const db = mongoose.connection;
 // User.collection.insertMany(mockDataUsers, function(err,r) {
 //   assert.equal(null, err);
 //   assert.equal(30, r.insertedCount);
