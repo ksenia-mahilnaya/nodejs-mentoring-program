@@ -13,4 +13,4 @@ const citySchema = new Schema({
   lastModifiedDate: Date
 });
 
-module.exports = citySchema;
+module.exports = mongoose.model('City', citySchema);

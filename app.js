@@ -6,19 +6,38 @@ const mockDataProducts = require('./data/MOCK_DATA_PRODUCTS');
 const mockDataUsers = require('./data/MOCK_DATA_USERS');
 const mongoose = require('mongoose');
 const assert = require('assert');
-const userSchema = require('./models/userSchema');
+const dbURL = require('config/config').dbURL;
+const User = require('./models/User');
+const Product = require('./models/Product');
+const City = require('./models/City');
 const productSchema = require('./models/productSchema');
 const citySchema = require('./models/citySchema');
 
 const app = express();
 const router = express.Router();
 
-mongoose.connect("mongodb://localhost:27017/admin");
+mongoose.connect(dbURL);
+
+mongoose.connection.on('connected', function(){
+    console.log(connected("Mongoose default connection is open to ", dbURL));
+});
+
+mongoose.connection.on('error', function(err){
+    console.log(error("Mongoose default connection has occured "+err+" error"));
+});
+
+mongoose.connection.on('disconnected', function(){
+    console.log(disconnected("Mongoose default connection is disconnected"));
+});
+
+process.on('SIGINT', function(){
+    mongoose.connection.close(function(){
+        console.log(termination("Mongoose default connection is disconnected due to application termination"));
+        process.exit(0)
+    });
+});
  
 const db = mongoose.connection;
-const User = mongoose.model('User', userSchema);
-const Product = mongoose.model('Product', productSchema);
-const City = mongoose.model('City', citySchema);
 
 // User.collection.insertMany(mockDataUsers, function(err,r) {
 //   assert.equal(null, err);

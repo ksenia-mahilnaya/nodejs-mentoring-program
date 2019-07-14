@@ -18,4 +18,4 @@ const productSchema = new Schema({
   lastModifiedDate: Date
 });
 
-module.exports = productSchema;
+module.exports = mongoose.model('Product', productSchema);
