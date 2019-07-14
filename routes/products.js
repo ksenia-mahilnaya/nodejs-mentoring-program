@@ -6,7 +6,7 @@ const productsCtrl = require('../controllers/productsCtrl');
 
 const router = express.Router();
 
-// router.use(checkToken);
+router.use(checkToken);
 router.use(bodyParser.json());
 
 router.get('/', productsCtrl.getAllProducts);
