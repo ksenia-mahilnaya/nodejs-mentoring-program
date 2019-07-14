@@ -1,5 +1,10 @@
 function queryParser(req, res, next) {
-  req.parsedQuery = req.query;
+  const query = req.headers.query ? req.headers.query.split('; ') : [];
+  req.parsedQuery = {};
+  query.forEach((query) => {
+    const [key, value] = query.split('=');
+    req.parsedQuery[key] = value;
+  }, {});
 
   next();
 }

@@ -8,15 +8,12 @@ function checkToken(req, res, next) {
       if (err) {
         res.json({ success: false, message: 'Failed to authenticate token. ' })
       } else {
-
         next();
       }
     });
   } else {
     res.status(403).send({ success: false, message: 'No token provided. ' });
   }
-
-
 }
 
 module.exports = checkToken;
