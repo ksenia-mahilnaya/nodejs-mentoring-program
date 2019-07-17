@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-router.get('/api/cities', citiesCtrl.getAllCities);
-router.post('/api/cities', citiesCtrl.addNewCity);
-router.put('/api/cities/:id', citiesCtrl.updateCity);
-router.delete('/api/cities/:id', citiesCtrl.removeCity);
+router.get('/', citiesCtrl.getAllCities);
+router.post('/', citiesCtrl.addNewCity);
+router.put('/:id', citiesCtrl.updateCity);
+router.delete('/:id', citiesCtrl.removeCity);
 
 module.exports = router;

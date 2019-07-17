@@ -42,7 +42,7 @@ process.on('SIGINT', () => {
     });
 });
  
-// this piece of code is for importing mock data into database
+// // this piece of code is for importing mock data into database
 // const db = mongoose.connection;
 // User.collection.insertMany(mockDataUsers, function(err,r) {
 //   assert.equal(null, err);
@@ -60,7 +60,7 @@ process.on('SIGINT', () => {
 
 mongoose.set('useFindAndModify', false);
 
-router.use((req, res, next) => {
+app.use((req, res, next) => {
   let randomNumber = Math.random().toString();
   randomNumber = randomNumber.substring(2, randomNumber.length);
   res.cookie('cookieName', randomNumber, { maxAge: 5000, httpOnly: true });
@@ -69,8 +69,8 @@ router.use((req, res, next) => {
   next();
 });
 
-router.use(cookiesParser);
-router.use(queryParser);
+app.use(cookiesParser);
+app.use(queryParser);
 
 app.use('/api/products', productsRoute);
 app.use('/api/users', usersRoute);

@@ -1,16 +1,20 @@
 const User = require('../models/User');
 
 module.exports = {
-    getAllUsers: (req, res) => {
-        User.find((err, users) => {
-          if (err) throw err;
-          res.json(users);
-        });
+    getAllUsers: async (req, res) => {
+        try {
+            const users = await User.find();
+            res.status(200).json(users);
+            } catch {
+            res.status(500).send(err);
+            }
     },
-    deleteUser: (req, res) => {
-        User.findByIdAndRemove(req.params.id, (err, user) => {
-            if (err) throw err;
-            res.json(user);
-        });
+    deleteUser: async (req, res) => {
+        try {
+            const user = await User.findByIdAndRemove({ _id: req.params.id });
+            res.status(200).json(user);
+          } catch {
+            res.status(500).send(err);
+          }
     }
 };

@@ -1,25 +1,33 @@
+const mongoose = require('mongoose');
 const Product = require('../models/Product');
 
 module.exports = {
-    getAllProducts: (req, res) => {
-      Product.find((err, products) => {
-        if (err) throw err;
-        res.json(products);
-      });
+    getAllProducts: async (req, res) => {
+      try {
+        const products = await Product.find();
+        res.status(200).json(products);
+      } catch {
+        res.status(500).send(err);
+      }
     },
-    getProductById: (req, res) => {
-      Product.findById(req.params.id, (err, product) => {
-        if (err) throw err;
-        res.json(product);
-      });
+    getProductById: async (req, res) => {
+      try {
+        const product = await Product.findById(req.params.id);
+        res.status(200).json(product);
+      } catch {
+        res.status(500).send(err);
+      }
     },
-    getProductReviews: (req, res) => {
-      Product.findById(req.params.id, (err, product) => {
-        if (err) throw err;
-        res.json(product.reviews);
-      });
+    getProductReviews: async (req, res) => {
+      try {
+        const product = await Product.findById(req.params.id);
+        res.status(200).json(product.reviews);
+      } catch {
+        res.status(500).send(err);
+      }
     },
-    addNewProduct: (req, res) => {
+    addNewProduct: async (req, res) => {
+     try {
       const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         id: req.body.id,
@@ -28,22 +36,19 @@ module.exports = {
         username: req.body.username,
         reviews: req.body.reviews
       });
-    
-      // product.schema.pre('save', function(next) {
-      //   this.lastModifiedDate = new Date();
-      //   next();
-      // });
-    
-      product.save((err) => {
-        if (err) throw err;
-        console.log('Product saved successfully');
-        res.json(product);
-        });
+
+      await product.save();
+      res.json(product);
+      } catch (err) {
+        res.status(500).send(err);
+      }
     },
-    deleteProduct: (req, res) => {
-      Product.findByIdAndRemove(req.params.id, (err, product) => {
-        if (err) throw err;
-        res.json(product);
-      });
+    deleteProduct: async (req, res) => {
+      try {
+        const product = await Product.findByIdAndRemove({ _id: req.params.id });
+        res.status(200).json(product);
+      } catch {
+        res.status(500).send(err);
+      }
     }
 };
