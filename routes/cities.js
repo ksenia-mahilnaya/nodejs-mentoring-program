@@ -7,6 +7,7 @@ router.use(bodyParser.json());
 
 router.get('/', citiesCtrl.getAllCities);
 router.post('/', citiesCtrl.addNewCity);
+router.get('/:id', citiesCtrl.getCityById);
 router.put('/:id', citiesCtrl.updateCity);
 router.delete('/:id', citiesCtrl.removeCity);
 

@@ -7,8 +7,8 @@ const citySchema = new Schema({
   country: String,
   capital: Boolean,
   location: {
-    lat: Number,
-    long: Number
+    lat: String,
+    long: String
   },
   lastModifiedDate: Date
 });

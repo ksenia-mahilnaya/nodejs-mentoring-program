@@ -10,6 +10,14 @@ module.exports = {
         res.status(500).send(err);
       }
     },
+    getCityById: async (req, res) => {
+      try {
+        const city = await City.findById(req.params.id);
+        res.status(200).json(city);
+      } catch {
+        res.status(500).send(err);
+      }
+    },
     addNewCity: async (req, res) => {
       try {
         const city = new City({

@@ -7,9 +7,9 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 router.get('/', productsCtrl.getAllProducts);
-router.get('/:id', productsCtrl.getProductById);
-router.get('/:id/reviews', productsCtrl.getProductReviews);
 router.post('/', productsCtrl.addNewProduct);
+router.get('/:id', productsCtrl.getProductById);
 router.delete('/:id', productsCtrl.deleteProduct);
+router.get('/:id/reviews', productsCtrl.getProductReviews);
 
 module.exports = router;
