@@ -19,7 +19,8 @@ citySchema.pre('save', function (next) {
 });
 
 citySchema.pre('findOneAndUpdate', function (next) {
-  this.lastModifiedDate = new Date();
+  const doc = this.getUpdate();
+  doc.$set.lastModifiedDate = new Date();
   next();
 });
 
