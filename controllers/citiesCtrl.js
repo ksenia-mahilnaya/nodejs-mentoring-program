@@ -6,7 +6,7 @@ module.exports = {
       try {
         const cities = await City.find();
         res.status(200).json(cities);
-      } catch {
+      } catch(err) {
         res.status(500).send(err);
       }
     },
@@ -14,7 +14,7 @@ module.exports = {
       try {
         const city = await City.findById(req.params.id);
         res.status(200).json(city);
-      } catch {
+      } catch(err) {
         res.status(500).send(err);
       }
     },
@@ -27,10 +27,10 @@ module.exports = {
           capital: req.body.capital,
           location: req.body.location
         });
-  
+
         await city.save();
         res.status(200).json(city);
-        } catch (err) {
+        } catch(err) {
           res.status(500).send(err);
         }
     },
@@ -41,7 +41,7 @@ module.exports = {
         capital: req.query.capital,
         location: req.query.location
       };
-      
+
       try {
         const city = await City.findOneAndUpdate({ _id: req.params.id }, { $set: newCityProps }, { new: true });
         res.status(200).json(city);
@@ -53,7 +53,7 @@ module.exports = {
       try {
         const city = await City.findByIdAndRemove({ _id: req.params.id });
         res.status(200).json(city);
-      } catch {
+      } catch(err) {
         res.status(500).send(err);
       }
     }

@@ -6,7 +6,7 @@ module.exports = {
       try {
         const products = await Product.find();
         res.status(200).json(products);
-      } catch {
+      } catch(err) {
         res.status(500).send(err);
       }
     },
@@ -14,7 +14,7 @@ module.exports = {
       try {
         const product = await Product.findById(req.params.id);
         res.status(200).json(product);
-      } catch {
+      } catch(err) {
         res.status(500).send(err);
       }
     },
@@ -22,7 +22,7 @@ module.exports = {
       try {
         const product = await Product.findById(req.params.id);
         res.status(200).json(product.reviews);
-      } catch {
+      } catch(err) {
         res.status(500).send(err);
       }
     },
@@ -39,7 +39,7 @@ module.exports = {
 
       await product.save();
       res.status(200).json(product);
-      } catch (err) {
+      } catch(err) {
         res.status(500).send(err);
       }
     },
@@ -47,7 +47,7 @@ module.exports = {
       try {
         const product = await Product.findByIdAndRemove({ _id: req.params.id });
         res.status(200).json(product);
-      } catch {
+      } catch(err) {
         res.status(500).send(err);
       }
     }

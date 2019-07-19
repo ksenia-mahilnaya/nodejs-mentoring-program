@@ -5,7 +5,7 @@ module.exports = {
         try {
             const users = await User.find();
             res.status(200).json(users);
-            } catch {
+            } catch(err) {
             res.status(500).send(err);
             }
     },
@@ -13,7 +13,7 @@ module.exports = {
         try {
             const user = await User.findByIdAndRemove({ _id: req.params.id });
             res.status(200).json(user);
-          } catch {
+          } catch(err) {
             res.status(500).send(err);
           }
     }

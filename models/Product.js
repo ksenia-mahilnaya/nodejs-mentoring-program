@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
- 
+
 const productSchema = new Schema({
   id: {
       type: Number,
@@ -16,6 +16,11 @@ const productSchema = new Schema({
   username: String,
   reviews: Number,
   lastModifiedDate: Date
+});
+
+productSchema.pre('save', function (next) {
+  this.lastModifiedDate = new Date();
+  next();
 });
 
 module.exports = mongoose.model('Product', productSchema);
