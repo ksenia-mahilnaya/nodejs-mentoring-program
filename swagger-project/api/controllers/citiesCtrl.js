@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const City = require('../models/City');
+const City = require('../../../models/City');
 
 module.exports = {
     getAllCities: async (req, res) => {

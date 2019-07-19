@@ -32,6 +32,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "swagger": "^0.7.5",
     "through2": "^3.0.1"
   }
 }

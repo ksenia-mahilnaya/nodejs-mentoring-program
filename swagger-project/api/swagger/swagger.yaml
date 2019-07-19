@@ -1,0 +1,374 @@
+---
+swagger: "2.0"
+info:
+  description: |
+    This is a simple server for nodejs-mentoring-program.
+  version: 1.0.0
+  title: Swagger NodeJs Mentoring Program
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: ksenia.vlady@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: localhost:10010
+basePath: /
+tags:
+- name: Products
+  description: Basic operation with Products
+- name: Users
+  description: Basic operation with Users
+- name: Cities
+  description: Basic operation with Cities
+schemes:
+- https
+- http
+paths:
+  /api/products:
+    x-swagger-router-controller: productsCtrl
+    get:
+      tags:
+      - Products
+      summary: Get all products from the database
+      operationId: getAllProducts
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: Array of products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        500:
+          description: Internal Server Error
+    post:
+      tags:
+      - Products
+      summary: Add a new product to the database
+      operationId: addNewProduct
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Product object that needs to be added to the database
+        required: true
+        schema:
+          $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: Product added successfully
+          schema:
+            type: object
+        500:
+          description: Internal Server Error
+  /api/products/{id}:
+    x-swagger-router-controller: productsCtrl
+    get:
+      tags:
+      - Products
+      summary: Finds product by id
+      operationId: getProductById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id value that need to be considered for filter products
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
+        500:
+          description: Internal Server Error
+    delete:
+      tags:
+      - Products
+      summary: Finds product by id
+      operationId: deleteProduct
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id value that need to be considered for filter products
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        500:
+          description: Internal Server Error
+  /api/products/{id}/reviews:
+    x-swagger-router-controller: productsCtrl
+    get:
+      tags:
+      - Products
+      description: Get product reviews by product id
+      operationId: getProductReviews
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id value
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
+        500:
+          description: Internal Server Error
+  /api/cities:
+    x-swagger-router-controller: citiesCtrl
+    get:
+      tags:
+      - Cities
+      description: Get cities
+      operationId: getAllCities
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+        500:
+          description: Internal Server Error
+    post:
+      tags:
+      - Cities
+      description: Add new city
+      operationId: addNewCity
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: New city
+        required: true
+        schema:
+          $ref: '#/definitions/City'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
+        500:
+          description: Internal Server Error
+  /api/cities/{id}:
+    x-swagger-router-controller: citiesCtrl
+    get:
+      tags:
+      - Cities
+      description: Get city by id
+      operationId: getCityById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id value
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
+        500:
+          description: Internal Server Error
+    put:
+      tags:
+      - Cities
+      description: Update city by id
+      operationId: updateCity
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id value
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
+        500:
+          description: Internal Server Error
+
+    delete:
+      tags:
+      - Cities
+      description: Remove city by id
+      operationId: removeCity
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id value
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: object
+        500:
+          description: Internal Server Error
+  /api/users:
+    x-swagger-router-controller: usersCtrl
+    get:
+      tags:
+      - Users
+      summary: List of users
+      description: List of users
+      operationId: getAllUsers
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        500:
+          description: Internal Server Error
+  /api/users/{id}:
+    x-swagger-router-controller: usersCtrl
+    delete:
+      tags:
+      - Users
+      summary: Delete user by user id
+      operationId: deleteUser
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user that needs to be deleted
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        500:
+          description: Internal Server Error
+definitions:
+  City:
+    type: object
+    properties:
+      name:
+        type: string
+      country:
+        type: string
+      capital:
+        type: boolean
+      location:
+        $ref: '#/definitions/City_location'
+      lastModifiedDate:
+        type: string
+        format: date-time
+    xml:
+      name: City
+    example:
+      name: Grodno
+      country: Belarus
+      capital: false
+      location:
+        lat: "67.567234"
+        long: "11.457623"
+      lastModifiedDate: Fri Jul 19 2019 10:45:31 GMT+0300 (Moscow Standard Time)
+  User:
+    type: object
+    required:
+    - firstName
+    - lastName
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      title:
+        type: string
+      language:
+        type: string
+      shortSize:
+        type: string
+      jobTitle:
+        type: string
+        maxLength: 40
+    xml:
+      name: User
+    example:
+      first name: Hortensia
+      last name: Hamprecht
+      title: Honorable
+      language: Malagasy
+      shirt size: XL
+      job title: Geological Engineer
+  Product:
+    type: object
+    required:
+    - appName
+    properties:
+      id:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 50
+      appName:
+        type: string
+      appVersion:
+        type: string
+      username:
+        type: string
+      reviews:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+    xml:
+      name: Product
+    example:
+      id: 4
+      appName: Alphazap
+      appVersion: "9.26"
+      reviews: 10
+      userName: divanuschka3
+      lastModifiedDate: Fri Jul 19 2019 10:45:31 GMT+0300 (Moscow Standard Time)
+  City_location:
+    properties:
+      lat:
+        type: string
+      long:
+        type: string
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
